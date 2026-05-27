@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Christopher Seymore – King of Nothing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0f0b08;
+      --surface:   #1a1208;
+      --gold:      #c9a84c;
+      --warm:      #F5F0E8;
+      --muted:     rgba(245,240,232,0.45);
+      --green:     #1DB954;
+      --green-dk:  #17a349;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--warm);
+      font-family: 'DM Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100svh;
+      overflow-x: hidden;
+    }
+
+    /* grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 390px;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 48px 28px 36px;
+      gap: 0;
+    }
+
+    /* ── venue pill ── */
+    .venue {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(201,168,76,0.12);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 100px;
+      padding: 7px 16px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      animation: fadeDown 0.6s ease both;
+    }
+    .venue-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    /* ── album art ── */
+    .art-wrap {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      animation: fadeUp 0.7s 0.15s ease both;
+    }
+    .art-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 6px;
+      display: block;
+    }
+    .art-glow {
+      position: absolute;
+      inset: -18px;
+      border-radius: 20px;
+      background: radial-gradient(ellipse at center, rgba(201,168,76,0.18) 0%, transparent 70%);
+      z-index: -1;
+    }
+
+    /* ── artist info ── */
+    .artist-block {
+      text-align: center;
+      animation: fadeUp 0.7s 0.25s ease both;
+    }
+    .artist-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 38px;
+      letter-spacing: 0.05em;
+      color: var(--warm);
+      line-height: 1;
+    }
+    .song-title {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    /* ── directive ── */
+    .directive {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--muted);
+      line-height: 1.6;
+      animation: fadeUp 0.7s 0.35s ease both;
+    }
+    .directive strong {
+      color: var(--warm);
+      font-weight: 500;
+    }
+
+    /* ── button ── */
+    .cta-wrap {
+      width: 100%;
+      animation: fadeUp 0.7s 0.45s ease both;
+    }
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      background: var(--green);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      padding: 18px 24px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:active {
+      background: var(--green-dk);
+      transform: scale(0.97);
+    }
+    .btn svg {
+      flex-shrink: 0;
+    }
+    .btn-hint {
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 12px;
+      letter-spacing: 0.03em;
+    }
+
+    /* ── animations ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="venue">
+      <span class="venue-dot"></span>
+      The White Horse — Live Right Now
+    </div>
+
+    <div class="art-wrap">
+      <div class="art-glow"></div>
+      <img
+        src="https://i.scdn.co/image/ab67616d0000b273abddfefff8d0078c722dbeb2"
+        alt="King of Nothing album art – Christopher Seymore"
+      />
+    </div>
+
+    <div class="artist-block">
+      <div class="artist-name">Christopher Seymore</div>
+      <div class="song-title">King of Nothing</div>
+    </div>
+
+    <div class="directive">
+      You're hearing this live right now.<br>
+      <strong>Open Spotify and tap ♥ to save it forever.</strong>
+    </div>
+
+    <div class="cta-wrap">
+      <a
+        class="btn"
+        href="spotify://album/5Rze9meR3ouucfEXNDkXO2"
+        onclick="setTimeout(function(){ window.location='https://open.spotify.com/album/5Rze9meR3ouucfEXNDkXO2'; }, 1200);"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.622.622 0 01-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.622.622 0 11-.277-1.215c3.809-.87 7.076-.496 9.712 1.115a.622.622 0 01.207.857zm1.223-2.722a.779.779 0 01-1.072.257c-2.687-1.652-6.785-2.131-9.965-1.166a.779.779 0 01-.973-.519.779.779 0 01.519-.972c3.632-1.102 8.147-.568 11.234 1.328a.779.779 0 01.257 1.072zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.935.935 0 11-.543-1.79c3.532-1.072 9.404-.865 13.115 1.338a.935.935 0 01-.955 1.609z"/>
+        </svg>
+        Save on Spotify
+      </a>
+      <p class="btn-hint">Opens the Spotify app — then tap the ♥</p>
+    </div>
+
+  </div>
+</body>
+</html>
